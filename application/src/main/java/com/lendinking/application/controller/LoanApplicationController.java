@@ -18,7 +18,18 @@ public class LoanApplicationController {
             @RequestBody LoanApplicationDetails loanApplication){
 
     loanApplicationServiceInterface.saveLoanApplication(loanApplication);
-    return new ResponseEntity<>( "DATA SAVED", HttpStatus.OK);
+
+   try {
+        // Return a success response with a status code of 200 and a custom message
+        String message = "Data saved successfully";
+        return new ResponseEntity<>(message, HttpStatus.OK);
+    }
+   catch (Exception e){
+        // Return an error response with a status code of 500 and a custom message
+        String errorMessage = "Failed to save data";
+        return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
 
 }

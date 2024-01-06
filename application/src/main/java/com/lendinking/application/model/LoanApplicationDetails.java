@@ -11,7 +11,6 @@ import java.util.Date;
 public class LoanApplicationDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mobileNo;
 
     // Personal Information
