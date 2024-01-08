@@ -1,6 +1,8 @@
 package com.lendinking.application.service;
 
+import com.lendinking.application.model.DocumentUploadDetails;
 import com.lendinking.application.model.LoanApplicationDetails;
+import com.lendinking.application.repository.DocumentRepository;
 import com.lendinking.application.repository.LoanApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,8 +14,16 @@ public class LoanApplicationServiceImpl implements LoanApplicationServiceInterfa
     @Autowired
     private LoanApplicationRepository loanApplicationRepository;
 
+    @Autowired
+    private DocumentRepository documentRepository;
     public LoanApplicationDetails saveLoanApplication(LoanApplicationDetails loanApplication) {
         LoanApplicationDetails save = loanApplicationRepository.save(loanApplication);
         return loanApplication;
+    }
+
+    public DocumentUploadDetails uploadStatus(long mobNo){
+
+        DocumentUploadDetails  result=  documentRepository.getById(mobNo);
+        return  result ;
     }
 }

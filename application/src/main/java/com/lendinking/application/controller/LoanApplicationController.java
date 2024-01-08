@@ -32,4 +32,21 @@ public class LoanApplicationController {
 
 }
 
+    @GetMapping("/bl-loan-application-status/{mobNo}")
+
+    public ResponseEntity<?> uploadStatus(@PathVariable Long mobNo){
+        try {
+
+            return new ResponseEntity<>(loanApplicationServiceInterface.uploadStatus(mobNo), HttpStatus.OK);
+        }
+        catch (Exception e){
+            // Return an error response with a status code of 500 and a custom message
+            String errorMessage = "Failed to Fetch Status";
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
+
 }
