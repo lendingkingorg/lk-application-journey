@@ -10,4 +10,5 @@ public interface LoanApplicationServiceInterface {
 
  public DocumentUploadDetails uploadStatus(long mobNo);
 
+ Boolean docUploadStatus(Long mobNo);
 }

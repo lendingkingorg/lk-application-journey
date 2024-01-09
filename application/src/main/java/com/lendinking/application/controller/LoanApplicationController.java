@@ -1,5 +1,6 @@
 package com.lendinking.application.controller;
 
+import com.lendinking.application.model.DocumentUploadDetails;
 import com.lendinking.application.model.LoanApplicationDetails;
 import com.lendinking.application.service.LoanApplicationServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,23 +8,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/document-api")
 public class LoanApplicationController {
 @Autowired
     LoanApplicationServiceInterface loanApplicationServiceInterface;
-@PostMapping("/bl-save-personal-and-business-info/{mobNo}")
+@PostMapping("/bl-save-personal-and-business-info/")
 
-    public ResponseEntity<?> saveBusinessDetails(@PathVariable String mobNo,
-            @RequestBody LoanApplicationDetails loanApplication){
+    public ResponseEntity<?> saveBusinessDetails(@RequestBody LoanApplicationDetails loanApplication){
 
-    loanApplicationServiceInterface.saveLoanApplication(loanApplication);
+
 
    try {
         // Return a success response with a status code of 200 and a custom message
-        String message = "Data saved successfully";
-        return new ResponseEntity<>(message, HttpStatus.OK);
-    }
+       LoanApplicationDetails res= loanApplicationServiceInterface.saveLoanApplication(loanApplication);
+       String message = "Data saved successfully";
+
+       // Create a Map for the JSON response
+       Map<String, Object> jsonResponse = new HashMap<>();
+       jsonResponse.put("isSaved", res!=null);
+       jsonResponse.put("message", message);
+
+       return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+
+   }
    catch (Exception e){
         // Return an error response with a status code of 500 and a custom message
         String errorMessage = "Failed to save data";
@@ -36,8 +47,15 @@ public class LoanApplicationController {
 
     public ResponseEntity<?> uploadStatus(@PathVariable Long mobNo){
         try {
+            DocumentUploadDetails res=  loanApplicationServiceInterface.uploadStatus(mobNo);
+            Boolean userDetailsStatus=  loanApplicationServiceInterface.docUploadStatus(mobNo);
 
-            return new ResponseEntity<>(loanApplicationServiceInterface.uploadStatus(mobNo), HttpStatus.OK);
+            Map<String, Object> jsonResponse = new HashMap<>();
+            jsonResponse.put("userDetailsStatus", userDetailsStatus);
+            jsonResponse.put("DocumentURL", res);
+
+            return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+
         }
         catch (Exception e){
             // Return an error response with a status code of 500 and a custom message
@@ -46,7 +64,5 @@ public class LoanApplicationController {
         }
 
     }
-
-
 
 }

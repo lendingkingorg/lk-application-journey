@@ -18,12 +18,16 @@ public class LoanApplicationServiceImpl implements LoanApplicationServiceInterfa
     private DocumentRepository documentRepository;
     public LoanApplicationDetails saveLoanApplication(LoanApplicationDetails loanApplication) {
         LoanApplicationDetails save = loanApplicationRepository.save(loanApplication);
-        return loanApplication;
+        return save;
     }
 
+    public Boolean docUploadStatus(Long mobNo){
+
+        return loanApplicationRepository.existsById(mobNo);
+
+    }
     public DocumentUploadDetails uploadStatus(long mobNo){
 
-        DocumentUploadDetails  result=  documentRepository.getById(mobNo);
-        return  result ;
+        return documentRepository.findByMobileNo(mobNo);
     }
 }
