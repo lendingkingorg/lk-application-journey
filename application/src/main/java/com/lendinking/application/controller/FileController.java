@@ -1,18 +1,21 @@
 package com.lendinking.application.controller;
 
+import com.sun.net.httpserver.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.UUID;
 
@@ -32,7 +35,7 @@ public class FileController {
             s3Client.putObject(PutObjectRequest.builder()
                     .bucket(bucketName)
                     .key(key)
-                    .build(), (Path) file.getInputStream());
+                    .build(), file.getInputStream());
 
             String fileUrl = "https://" + bucketName + ".s3.amazonaws.com/" + key;
 
