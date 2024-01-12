@@ -1,0 +1,9 @@
+com\lendinking\application\controller\LoanApplicationController.class
+com\lendinking\application\model\DocumentUploadDetails.class
+com\lendinking\application\Application.class
+com\lendinking\application\repository\DocumentRepository.class
+com\lendinking\application\repository\LoanApplicationRepository.class
+com\lendinking\application\service\LoanApplicationServiceImpl.class
+com\lendinking\application\model\LoanApplicationDetails.class
+com\lendinking\application\Config\AwsS3Config.class
+com\lendinking\application\service\LoanApplicationServiceInterface.class
