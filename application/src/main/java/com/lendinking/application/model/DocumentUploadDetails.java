@@ -5,6 +5,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,7 @@ public class DocumentUploadDetails {
 
     String PanCardUrl;
     String BankStatementOneDocType;
-    
+
     List<String> documentBankName;
 
     List<String> documentURL;
@@ -26,5 +27,10 @@ public class DocumentUploadDetails {
 
     String IDProofOfGuarantorUrl;
 
-
+    public DocumentUploadDetails() {
+        List<String> list = new ArrayList<>();
+        List<String> list1 = new ArrayList<>();
+        this.documentURL = list;
+        this.documentBankName= list1;
+    }
 }

@@ -17,6 +17,7 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import java.io.*;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 @RestController
 public class FileController {
@@ -34,8 +35,9 @@ public class FileController {
     public ResponseEntity<String> handleFileUpload(
             @RequestPart(value = "file") MultipartFile file,
             @PathVariable long mobNo,
-            @org.springframework.web.bind.annotation.RequestBody DocumentUploadRequest documentUploadRequest) {
+            @RequestPart DocumentUploadRequest documentUploadRequest) {
         try {
+            System.out.println("Request Headers: " + documentUploadRequest.getDocumentType().toString());
             LocalDateTime localDateTime = LocalDateTime.now();
 
             String key = generateKey(file.getOriginalFilename());
@@ -55,9 +57,12 @@ public class FileController {
                 documentUploadDetails.setMobileNo(mobNo);
                 documentRepository.save(documentUploadDetails);
             }
+            System.out.println(documentUploadRequest.getDocumentType().contains("Bank Statement"));
 
-            if(documentUploadRequest.getDocumentType()=="Bank Statement"){
-                documentRepository.findByMobileNo(mobNo).getDocumentURL().add(fileUrl);
+            if(documentUploadRequest.getDocumentType().contains("Bank Statement")){
+                List<String> list = documentRepository.findByMobileNo(mobNo).getDocumentURL();
+                list.add(fileUrl);
+                documentRepository.findByMobileNo(mobNo).setDocumentURL(list);
                 documentRepository.findByMobileNo(mobNo).getDocumentBankName().add(bankInfo);
             }else{
                 documentRepository.findByMobileNo(mobNo).setPanCardUrl(fileUrl);
