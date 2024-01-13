@@ -64,31 +64,33 @@ public class FileController {
                 DocumentUploadDetails documentInfo=  documentRepository.findByMobileNo(mobNo);
 
                 if(documentInfo.getBankStatementUrlOne()==null){
-                    documentRepository.findByMobileNo(mobNo).setBankStatementUrlOne(fileUrl);
-                    documentRepository.findByMobileNo(mobNo).setBankInfoOne(documentUploadRequest.getDocumentInfo());
-                    documentRepository.findByMobileNo(mobNo).setBankStatementOneDocFormat(documentUploadRequest.getDocumentFormat());
+                    documentInfo.setBankStatementUrlOne(fileUrl);
+                    documentInfo.setBankInfoOne(documentUploadRequest.getDocumentInfo());
+                    documentInfo.setBankStatementOneDocFormat(documentUploadRequest.getDocumentFormat());
 
                 } else if (documentInfo.getBankStatementUrlTwo()==null) {
-                    documentRepository.findByMobileNo(mobNo).setBankStatementUrlTwo(fileUrl);
-                    documentRepository.findByMobileNo(mobNo).setBankInfoTwo(documentUploadRequest.getDocumentInfo());
-                    documentRepository.findByMobileNo(mobNo).setBankStatementTwoDocFormat(documentUploadRequest.getDocumentFormat());
+                    documentInfo.setBankStatementUrlTwo(fileUrl);
+                    documentInfo.setBankInfoTwo(documentUploadRequest.getDocumentInfo());
+                    documentInfo.setBankStatementTwoDocFormat(documentUploadRequest.getDocumentFormat());
 
                 }else if (documentInfo.getBankStatementUrlThree()==null) {
-                    documentRepository.findByMobileNo(mobNo).setBankStatementUrlThree(fileUrl);
-                    documentRepository.findByMobileNo(mobNo).setBankInfoThree(documentUploadRequest.getDocumentInfo());
-                    documentRepository.findByMobileNo(mobNo).setBankStatementThreeDocFormat(documentUploadRequest.getDocumentFormat());
+                    documentInfo.setBankStatementUrlThree(fileUrl);
+                    documentInfo.setBankInfoThree(documentUploadRequest.getDocumentInfo());
+                    documentInfo.setBankStatementThreeDocFormat(documentUploadRequest.getDocumentFormat());
 
                 }else if (documentInfo.getBankStatementUrlFour()==null) {
-                    documentRepository.findByMobileNo(mobNo).setBankStatementUrlFour(fileUrl);
-                    documentRepository.findByMobileNo(mobNo).setBankInfoFour(documentUploadRequest.getDocumentInfo());
-                    documentRepository.findByMobileNo(mobNo).setBankStatementFourDocFormat(documentUploadRequest.getDocumentFormat());
+                    documentInfo.setBankStatementUrlFour(fileUrl);
+                    documentInfo.setBankInfoFour(documentUploadRequest.getDocumentInfo());
+                    documentInfo.setBankStatementFourDocFormat(documentUploadRequest.getDocumentFormat());
 
                 }else  {
-                    documentRepository.findByMobileNo(mobNo).setBankStatementUrlFive(fileUrl);
-                    documentRepository.findByMobileNo(mobNo).setBankInfoFive(documentUploadRequest.getDocumentInfo());
-                    documentRepository.findByMobileNo(mobNo).setBankStatementFiveDocFormat(documentUploadRequest.getDocumentFormat());
+                    documentInfo.setBankStatementUrlFive(fileUrl);
+                    documentInfo.setBankInfoFive(documentUploadRequest.getDocumentInfo());
+                    documentInfo.setBankStatementFiveDocFormat(documentUploadRequest.getDocumentFormat());
 
                 }
+
+                documentRepository.save(documentInfo);
 
 
             }
