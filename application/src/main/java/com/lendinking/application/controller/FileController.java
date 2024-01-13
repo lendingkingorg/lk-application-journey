@@ -1,5 +1,6 @@
 package com.lendinking.application.controller;
 
+import com.lendinking.application.entity.DocumentUploadRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,9 @@ public class FileController {
     private String bucketName;
 
     @PostMapping("/upload")
-    public ResponseEntity<String> handleFileUpload(@RequestPart(value = "file") MultipartFile file) {
+    public ResponseEntity<String> handleFileUpload(
+            @RequestPart(value = "file") MultipartFile file,
+            @org.springframework.web.bind.annotation.RequestBody DocumentUploadRequest documentUploadRequest) {
         try {
             String key = generateKey(file.getOriginalFilename());
             File modifiedFile = new File(file.getOriginalFilename());
