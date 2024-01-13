@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @EnableJpaRepositories
 public interface DocumentRepository extends JpaRepository<DocumentUploadDetails,Long> {
     DocumentUploadDetails findByMobileNo(long mobNo);
+
 }

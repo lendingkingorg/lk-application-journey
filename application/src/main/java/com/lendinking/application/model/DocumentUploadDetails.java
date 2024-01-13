@@ -5,6 +5,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 @Table(name = "document_inf")
@@ -14,28 +16,11 @@ public class DocumentUploadDetails {
     private Long mobileNo;
 
     String PanCardUrl;
-
-    String BankStatementUrlOne;
-    String BankInfoOne;
     String BankStatementOneDocType;
+    
+    List<String> documentBankName;
 
-    String BankStatementUrlTwo;
-    String BankInfoTwo;
-    String BankStatementTwoDocType;
-
-    String BankStatementUrlThree;
-    String BankInfoThree;
-    String BankStatementThreeDocType;
-
-    String BankStatementUrlFour;
-    String BankInfoFour;
-    String BankStatementFourDocType;
-
-    String BankStatementUrlFive;
-    String BankInfoFive;
-    String BankStatementFiveDocType;
-
-    String BusinessRegistrationProofUrl;
+    List<String> documentURL;
 
     String BusinessAddressProofUrl;
 
