@@ -52,7 +52,7 @@ public class LoanApplicationController {
 
             Map<String, Object> jsonResponse = new HashMap<>();
             jsonResponse.put("userDetailsStatus", userDetailsStatus);
-            jsonResponse.put("DocumentURL", res);
+            jsonResponse.put("DocumentDetails", res);
 
             return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
 
