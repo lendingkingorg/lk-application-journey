@@ -18,6 +18,7 @@ import java.io.*;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 @RestController
 public class FileController {
@@ -60,13 +61,50 @@ public class FileController {
             System.out.println(documentUploadRequest.getDocumentType().contains("Bank Statement"));
 
             if(documentUploadRequest.getDocumentType().contains("Bank Statement")){
-                List<String> list = documentRepository.findByMobileNo(mobNo).getDocumentURL();
-                list.add(fileUrl);
-                documentRepository.findByMobileNo(mobNo).setDocumentURL(list);
-                documentRepository.findByMobileNo(mobNo).getDocumentBankName().add(bankInfo);
-            }else{
+                DocumentUploadDetails documentInfo=  documentRepository.findByMobileNo(mobNo);
+
+                if(documentInfo.getBankStatementUrlOne()==null){
+                    documentRepository.findByMobileNo(mobNo).setBankStatementUrlOne(fileUrl);
+                    documentRepository.findByMobileNo(mobNo).setBankInfoOne(documentUploadRequest.getDocumentInfo());
+                    documentRepository.findByMobileNo(mobNo).setBankStatementOneDocFormat(documentUploadRequest.getDocumentFormat());
+
+                } else if (documentInfo.getBankStatementUrlTwo()==null) {
+                    documentRepository.findByMobileNo(mobNo).setBankStatementUrlTwo(fileUrl);
+                    documentRepository.findByMobileNo(mobNo).setBankInfoTwo(documentUploadRequest.getDocumentInfo());
+                    documentRepository.findByMobileNo(mobNo).setBankStatementTwoDocFormat(documentUploadRequest.getDocumentFormat());
+
+                }else if (documentInfo.getBankStatementUrlThree()==null) {
+                    documentRepository.findByMobileNo(mobNo).setBankStatementUrlThree(fileUrl);
+                    documentRepository.findByMobileNo(mobNo).setBankInfoThree(documentUploadRequest.getDocumentInfo());
+                    documentRepository.findByMobileNo(mobNo).setBankStatementThreeDocFormat(documentUploadRequest.getDocumentFormat());
+
+                }else if (documentInfo.getBankStatementUrlFour()==null) {
+                    documentRepository.findByMobileNo(mobNo).setBankStatementUrlFour(fileUrl);
+                    documentRepository.findByMobileNo(mobNo).setBankInfoFour(documentUploadRequest.getDocumentInfo());
+                    documentRepository.findByMobileNo(mobNo).setBankStatementFourDocFormat(documentUploadRequest.getDocumentFormat());
+
+                }else  {
+                    documentRepository.findByMobileNo(mobNo).setBankStatementUrlFive(fileUrl);
+                    documentRepository.findByMobileNo(mobNo).setBankInfoFive(documentUploadRequest.getDocumentInfo());
+                    documentRepository.findByMobileNo(mobNo).setBankStatementFiveDocFormat(documentUploadRequest.getDocumentFormat());
+
+                }
+
+
+            }
+            else if(documentUploadRequest.getDocumentType().contains("Pan")){
                 documentRepository.findByMobileNo(mobNo).setPanCardUrl(fileUrl);
             }
+            else if(documentUploadRequest.getDocumentType().contains("BusinessRegistration")){
+                documentRepository.findByMobileNo(mobNo).setBusinessRegistrationProofUrl(fileUrl);
+            }
+            else if(documentUploadRequest.getDocumentType().contains("BusinessAddress")){
+                documentRepository.findByMobileNo(mobNo).setBusinessAddressProofUrl(fileUrl);
+            }
+            else if(documentUploadRequest.getDocumentType().contains("IDProofOfGuarantor")){
+                documentRepository.findByMobileNo(mobNo).setIDProofOfGuarantorUrl(fileUrl);
+            }
+
 
 
 
