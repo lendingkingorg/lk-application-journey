@@ -16,15 +16,24 @@ public class DocumentUploadDetails {
     String PanCardUrl;
 
     String BankStatementUrlOne;
-    String BankOne;
+    String BankInfoOne;
+    String BankStatementOneDocType;
+
     String BankStatementUrlTwo;
-    String BankTwo;
+    String BankInfoTwo;
+    String BankStatementTwoDocType;
+
     String BankStatementUrlThree;
-    String BankThree;
+    String BankInfoThree;
+    String BankStatementThreeDocType;
+
     String BankStatementUrlFour;
-    String BankFour;
+    String BankInfoFour;
+    String BankStatementFourDocType;
+
     String BankStatementUrlFive;
-    String BankFive;
+    String BankInfoFive;
+    String BankStatementFiveDocType;
 
     String BusinessRegistrationProofUrl;
 
