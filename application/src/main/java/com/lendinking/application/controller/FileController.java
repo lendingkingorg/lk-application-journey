@@ -58,10 +58,10 @@ public class FileController {
                 documentUploadDetails.setMobileNo(mobNo);
                 documentRepository.save(documentUploadDetails);
             }
-            System.out.println(documentUploadRequest.getDocumentType().contains("Bank Statement"));
+            System.out.println(documentUploadRequest.getDocumentType().contains("BankStatement"));
+            DocumentUploadDetails documentInfo=  documentRepository.findByMobileNo(mobNo);
+            if(documentUploadRequest.getDocumentType().contains("BankStatement")){
 
-            if(documentUploadRequest.getDocumentType().contains("Bank Statement")){
-                DocumentUploadDetails documentInfo=  documentRepository.findByMobileNo(mobNo);
 
                 if(documentInfo.getBankStatementUrlOne()==null){
                     documentInfo.setBankStatementUrlOne(fileUrl);
@@ -90,28 +90,24 @@ public class FileController {
 
                 }
 
-                documentRepository.save(documentInfo);
+
 
 
             }
             else if(documentUploadRequest.getDocumentType().contains("Pan")){
-                documentRepository.findByMobileNo(mobNo).setPanCardUrl(fileUrl);
+                documentInfo.setPanCardUrl(fileUrl);
             }
             else if(documentUploadRequest.getDocumentType().contains("BusinessRegistration")){
-                documentRepository.findByMobileNo(mobNo).setBusinessRegistrationProofUrl(fileUrl);
+                documentInfo.setBusinessRegistrationProofUrl(fileUrl);
             }
             else if(documentUploadRequest.getDocumentType().contains("BusinessAddress")){
-                documentRepository.findByMobileNo(mobNo).setBusinessAddressProofUrl(fileUrl);
+                documentInfo.setBusinessAddressProofUrl(fileUrl);
             }
             else if(documentUploadRequest.getDocumentType().contains("IDProofOfGuarantor")){
-                documentRepository.findByMobileNo(mobNo).setIDProofOfGuarantorUrl(fileUrl);
+                documentInfo.setIDProofOfGuarantorUrl(fileUrl);
             }
 
-
-
-
-
-
+            documentRepository.save(documentInfo);
             modifiedFile.delete();
 
 
@@ -126,4 +122,80 @@ public class FileController {
     private String generateKey(String originalFilename) {
         return UUID.randomUUID().toString() + "_" + originalFilename;
     }
+
+@PostMapping("/bl-file-removal/{mobNo}/{docID}")
+    public ResponseEntity<?> removeFile(@PathVariable Long  mobNo , @PathVariable String documentID){
+
+
+    DocumentUploadDetails documentInfo=  documentRepository.findByMobileNo(mobNo);
+
+
+
+    switch (documentID) {
+        case "bankStatementUrlOne":
+            documentInfo.setBankStatementUrlOne(null);
+            documentInfo.setBankInfoOne(null);
+            documentInfo.setBankStatementOneDocFormat(null);
+            // logic for BankStatement_1
+            System.out.println("Processing BankStatement_1");
+            break;
+        case "bankStatementUrlTwo":
+            // logic for BankStatement_2
+            System.out.println("Processing BankStatement_2");
+            documentInfo.setBankStatementUrlTwo(null);
+            documentInfo.setBankInfoTwo(null);
+            documentInfo.setBankStatementTwoDocFormat(null);
+            break;
+        case "bankStatementUrlThree":
+            // logic for BankStatement_3
+            documentInfo.setBankStatementUrlThree(null);
+            documentInfo.setBankInfoThree(null);
+            documentInfo.setBankStatementThreeDocFormat(null);
+            System.out.println("Processing BankStatement_3");
+            break;
+        case "bankStatementUrlFour":
+            // logic for BankStatement_4
+            documentInfo.setBankStatementUrlFour(null);
+            documentInfo.setBankInfoFour(null);
+            documentInfo.setBankStatementFourDocFormat(null);
+            System.out.println("Processing BankStatement_4");
+            break;
+        case "bankStatementUrlFive":
+            // logic for BankStatement_5
+            documentInfo.setBankStatementUrlFive(null);
+            documentInfo.setBankInfoFive(null);
+            documentInfo.setBankStatementFiveDocFormat(null);
+            System.out.println("Processing BankStatement_5");
+            break;
+        case "Pan":
+            // logic for Pan
+            System.out.println("Processing Pan");
+            documentInfo.setPanCardUrl(null);
+            break;
+        case "BusinessRegistration":
+            // logic for BusinessRegistration
+            System.out.println("Processing BusinessRegistration");
+            documentInfo.setBusinessRegistrationProofUrl(null);
+            break;
+        case "BusinessAddress":
+            // logic for BusinessAddress
+            System.out.println("Processing BusinessAddress");
+            documentInfo.setBusinessAddressProofUrl(null);
+            break;
+        case "IDProofOfGuarantor":
+            // logic for IDProofOfGuarantor
+            System.out.println("Processing IDProofOfGuarantor");
+            documentInfo.setIDProofOfGuarantorUrl(null);
+            break;
+    }
+
+
+
+    return ResponseEntity.status(HttpStatus.OK).body("fileUrl");
+
+
+
+
+    }
+
 }

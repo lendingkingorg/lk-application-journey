@@ -1,5 +1,6 @@
 package com.lendinking.application.controller;
 
+import com.lendinking.application.entity.DocumentURL;
 import com.lendinking.application.model.DocumentUploadDetails;
 import com.lendinking.application.model.LoanApplicationDetails;
 import com.lendinking.application.service.LoanApplicationServiceInterface;
@@ -16,32 +17,32 @@ import java.util.Map;
 public class LoanApplicationController {
 @Autowired
     LoanApplicationServiceInterface loanApplicationServiceInterface;
-@PostMapping("/bl-save-personal-and-business-info/")
+    @PostMapping("/bl-save-personal-and-business-info/")
 
     public ResponseEntity<?> saveBusinessDetails(@RequestBody LoanApplicationDetails loanApplication){
 
 
 
-   try {
-        // Return a success response with a status code of 200 and a custom message
-       LoanApplicationDetails res= loanApplicationServiceInterface.saveLoanApplication(loanApplication);
-       String message = "Data saved successfully";
+        try {
+            // Return a success response with a status code of 200 and a custom message
+            LoanApplicationDetails res= loanApplicationServiceInterface.saveLoanApplication(loanApplication);
+            String message = "Data saved successfully";
 
-       // Create a Map for the JSON response
-       Map<String, Object> jsonResponse = new HashMap<>();
-       jsonResponse.put("isSaved", res!=null);
-       jsonResponse.put("message", message);
+            // Create a Map for the JSON response
+            Map<String, Object> jsonResponse = new HashMap<>();
+            jsonResponse.put("isSaved", res!=null);
+            jsonResponse.put("message", message);
 
-       return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+            return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
 
-   }
-   catch (Exception e){
-        // Return an error response with a status code of 500 and a custom message
-        String errorMessage = "Failed to save data";
-        return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        catch (Exception e){
+            // Return an error response with a status code of 500 and a custom message
+            String errorMessage = "Failed to save data";
+            return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
     }
-
-}
 
     @GetMapping("/bl-loan-application-status/{mobNo}")
 
@@ -49,17 +50,21 @@ public class LoanApplicationController {
         try {
             DocumentUploadDetails res=  loanApplicationServiceInterface.uploadStatus(mobNo);
             Boolean userDetailsStatus=  loanApplicationServiceInterface.docUploadStatus(mobNo);
+            DocumentURL documentURL=null;
+        if(res!=null) {
+             documentURL=new DocumentURL(res);
+        }
 
             Map<String, Object> jsonResponse = new HashMap<>();
             jsonResponse.put("userDetailsStatus", userDetailsStatus);
-            jsonResponse.put("DocumentDetails", res);
+            jsonResponse.put("DocumentDetails", documentURL);
 
             return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
 
         }
-        catch (Exception e){
+        catch (Exception errorMessage){
             // Return an error response with a status code of 500 and a custom message
-            String errorMessage = "Failed to Fetch Status";
+          //  String errorMessage = "Failed to Fetch Status";
             return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
