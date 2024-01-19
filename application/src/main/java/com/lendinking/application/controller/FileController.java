@@ -20,6 +20,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.springframework.http.ResponseEntity.*;
+
 @RestController
 public class FileController {
 
@@ -90,9 +93,6 @@ public class FileController {
 
                 }
 
-
-
-
             }
             else if(documentUploadRequest.getDocumentType().contains("Pan")){
                 documentInfo.setPanCardUrl(fileUrl);
@@ -113,9 +113,9 @@ public class FileController {
 
 
 
-            return ResponseEntity.status(HttpStatus.OK).body(fileUrl);
+            return status(HttpStatus.OK).body(fileUrl);
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
+            return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading file");
         }
     }
 
@@ -123,21 +123,27 @@ public class FileController {
         return UUID.randomUUID().toString() + "_" + originalFilename;
     }
 
-@PostMapping("/bl-file-removal/{mobNo}/{docID}")
+@PostMapping("/bl-file-removal/{mobNo}/{documentID}")
     public ResponseEntity<?> removeFile(@PathVariable Long  mobNo , @PathVariable String documentID){
 
 
     DocumentUploadDetails documentInfo=  documentRepository.findByMobileNo(mobNo);
 
+    // Check if documentInfo is null
+    if (documentInfo == null) {
+        // Handle the case where the document is not found
+        return status(HttpStatus.NOT_FOUND).build();
+    }
 
 
     switch (documentID) {
         case "bankStatementUrlOne":
+            System.out.println("Processing BankStatement_1");
             documentInfo.setBankStatementUrlOne(null);
             documentInfo.setBankInfoOne(null);
             documentInfo.setBankStatementOneDocFormat(null);
-            // logic for BankStatement_1
-            System.out.println("Processing BankStatement_1");
+
+
             break;
         case "bankStatementUrlTwo":
             // logic for BankStatement_2
@@ -148,24 +154,27 @@ public class FileController {
             break;
         case "bankStatementUrlThree":
             // logic for BankStatement_3
+            System.out.println("Processing BankStatement_3");
             documentInfo.setBankStatementUrlThree(null);
             documentInfo.setBankInfoThree(null);
             documentInfo.setBankStatementThreeDocFormat(null);
-            System.out.println("Processing BankStatement_3");
+
             break;
         case "bankStatementUrlFour":
             // logic for BankStatement_4
+            System.out.println("Processing BankStatement_4");
             documentInfo.setBankStatementUrlFour(null);
             documentInfo.setBankInfoFour(null);
             documentInfo.setBankStatementFourDocFormat(null);
-            System.out.println("Processing BankStatement_4");
+
             break;
         case "bankStatementUrlFive":
             // logic for BankStatement_5
+            System.out.println("Processing BankStatement_5");
             documentInfo.setBankStatementUrlFive(null);
             documentInfo.setBankInfoFive(null);
             documentInfo.setBankStatementFiveDocFormat(null);
-            System.out.println("Processing BankStatement_5");
+
             break;
         case "Pan":
             // logic for Pan
@@ -189,12 +198,9 @@ public class FileController {
             break;
     }
 
+    documentRepository.save(documentInfo);
 
-
-    return ResponseEntity.status(HttpStatus.OK).body("fileUrl");
-
-
-
+    return status(HttpStatus.OK).body("fileUrl Removed Sucessfully");
 
     }
 

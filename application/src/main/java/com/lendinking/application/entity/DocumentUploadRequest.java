@@ -11,6 +11,5 @@ public class DocumentUploadRequest {
 
     private String DocumentInfo;
     private String DocumentType;
-
     private String DocumentFormat;
 }
